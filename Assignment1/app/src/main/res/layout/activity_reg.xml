@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:theme="@style/LoginTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="41dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:id="@+id/welcome_tv"
+        android:text="Hi! Welcome to"
+        android:textAlignment="center"
+        android:textColor="#ffffff" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/font1"
+        android:background="@null"
+        android:elevation="0dp"
+        android:outlineProvider="background" />
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="5dp"
+        android:id="@+id/enterdetail_tv"
+        android:text="Enter details to begin:"
+        android:layout_gravity="center"
+
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:id="@+id/name_et"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:hint="Username"
+        android:inputType="textNoSuggestions|textCapWords|textPersonName"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="9dp"
+        android:background="#66e9babc"
+        android:textColorHint="@color/mycolor4"
+        android:typeface="monospace"
+        android:textColor="@color/mycolor5"
+        />
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:hint="Email ID"
+        android:inputType="textEmailAddress"
+        android:id="@+id/email_et"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="9dp"
+        android:background="#66e9babc"
+        android:textColorHint="@color/mycolor4"
+        android:textColor="@color/mycolor5" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password_et"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="9dp"
+        android:background="#66e9babc"
+        android:textColorHint="@color/mycolor4"
+        android:textColor="@color/mycolor5" />
+    <Button
+        android:id="@+id/reg_btn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:background="@color/mycolor3"
+        android:paddingTop="0dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff"
+
+        />
+
+
+</LinearLayout>

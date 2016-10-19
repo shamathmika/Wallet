@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/LoginTheme"
+    android:paddingTop="70dp"
+    android:elevation="20dp">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="80dp"
+        android:src="@drawable/font1"
+        android:background="@null"
+        android:elevation="0dp"
+        android:outlineProvider="background" />
+
+
+    <EditText
+        android:id="@+id/name_et"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:hint="Username"
+        android:inputType="textNoSuggestions|textCapWords|textPersonName"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="9dp"
+        android:background="#66e9babc"
+        android:textColorHint="@color/mycolor4"
+        android:typeface="monospace"
+        android:textColor="@color/mycolor5"
+         />
+
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password_et"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="9dp"
+        android:background="#66e9babc"
+        android:textColorHint="@color/mycolor4"
+        android:textColor="@color/mycolor5" />
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Log in"
+        android:background="@color/mycolor3"
+        android:paddingTop="0dp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff"
+
+        />
+    <TextView
+        android:id="@+id/register_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:text="New? Register."
+
+        android:textColor="@color/material_grey_50" />
+
+
+
+</LinearLayout>

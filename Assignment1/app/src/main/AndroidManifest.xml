@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mahe.assignment1">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!--suppress AndroidDomInspection -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/appicon1"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/MyTheme">
+        <!--android:name=".check_logged_in"-->
+
+
+        <activity android:name=".check_logged_in"
+            android:theme="@style/LoginTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.check_logged_in" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.MainActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".LoginActivity"
+            android:theme="@style/LoginTheme">
+
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.LoginActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+
+        <activity android:name=".RegisterActivity"
+            android:theme="@style/LoginTheme">
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.RegisterActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".Home"
+            android:theme="@style/LoginTheme">
+
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.Home" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".BudgetMake">
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.BudgetMake" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".LoanTrack">
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.LoanTrack" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".Report">
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.Report" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Notepad">
+            <intent-filter>
+                <action android:name="com.example.mahe.assignment1.Notepad" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+
+    android:orientation="vertical">
+
+
+    <Spinner
+        android:id="@+id/chooseSpinner"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:entries="@array/choiceloan"
+        android:prompt="@string/choose"
+        style="@style/MyTheme"
+        android:dropDownSelector="@color/mycolor1"
+
+        android:nestedScrollingEnabled="true"
+        android:background="@color/mycolor6"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal"
+        android:elevation="5dp" />
+
+
+    <EditText
+        android:id="@+id/cal"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:paddingRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:hint="Set date"
+        android:layout_marginBottom="5dp"
+        style="@style/MyTheme"
+        android:background="@color/mycolor6"
+        android:elevation="5dp" />
+
+    <EditText
+        android:id="@+id/amt"
+        android:inputType="numberDecimal"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:paddingRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:hint="Enter amount"
+        android:layout_marginBottom="5dp"
+        style="@style/MyTheme"
+        android:background="@color/mycolor6"
+        android:elevation="5dp" />
+
+    <EditText
+        android:id="@+id/friend"
+
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:paddingRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:hint="Enter name"
+        android:inputType="textImeMultiLine|textPersonName|textCapWords|textNoSuggestions"
+        android:layout_marginBottom="5dp"
+        style="@style/MyTheme"
+        android:background="@color/mycolor6"
+        android:elevation="5dp" />
+
+
+    <EditText
+        android:id="@+id/categ"
+
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:paddingRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:inputType="textImeMultiLine|textCapWords"
+        android:hint="Enter category (Food, Entertainment etc)"
+        android:layout_marginBottom="5dp"
+        style="@style/MyTheme"
+        android:background="@color/mycolor6"
+        android:elevation="5dp" />
+
+
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_gravity="center_horizontal"
+        style="@style/ButtonStyle"
+        android:onClick="onSave"
+        android:elevation="5dp"
+        android:textColorHighlight="@color/abc"
+        android:outlineProvider="background" />
+    <!--android:background="@drawable/shape"-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listtxt"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="Scroll through your expenses: "
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:background="@color/mycolor7"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:divider="@color/abc"
+        android:dividerHeight="10dp"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true"
+        android:layout_weight="2.09" />
+
+
+</LinearLayout>
+
+</ScrollView>
