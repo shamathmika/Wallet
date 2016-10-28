@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:toolbar="http://schemas.android.com/apk/res-auto">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -16,7 +12,10 @@
 
     android:orientation="vertical">
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <Spinner
         android:id="@+id/chooseSpinner"
         android:layout_width="250dp"
@@ -113,7 +112,12 @@
         android:layout_marginTop="50dp"
         android:text="Scroll through your expenses: "
         android:visibility="gone"/>
-
+</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
     <ListView
         android:id="@+id/lv"
         android:layout_width="250dp"
@@ -126,8 +130,6 @@
         android:transcriptMode="alwaysScroll"
         android:stackFromBottom="true"
         android:layout_weight="2.09" />
-
-
 </LinearLayout>
 
-</ScrollView>
+</LinearLayout>

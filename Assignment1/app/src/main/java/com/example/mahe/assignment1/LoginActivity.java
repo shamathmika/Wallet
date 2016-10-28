@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -46,6 +47,7 @@ public class LoginActivity extends Activity {
     public static boolean ch;
     SharedPreferences shar;
     SharedPreferences.Editor editor;
+    InsertUserDBAdapter insdba;
 
 
     public static Boolean getisFirst() {
@@ -62,6 +64,8 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
 
+        insdba = new InsertUserDBAdapter(getApplicationContext());
+        insdba.open();
 
 
 
@@ -92,7 +96,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent("com.example.mahe.assignment1.RegisterActivity");
                 startActivity(i);
-                finish();
+
             }
         });
         loginbtn.setOnClickListener(new View.OnClickListener() {
@@ -112,25 +116,36 @@ public class LoginActivity extends Activity {
 
     public boolean check_login()
     {
-        if (username.getText().toString().equals("Abc Xyz") && pass.getText().toString().equals("hello123")) {
-            editor.putBoolean("first", true);
-            editor.putString("@string/username", username.getText().toString());
-            editor.putString("@string/pass", pass.getText().toString());
-            isFirst = true;
-            editor.commit();
-            Intent i = new Intent("com.example.mahe.assignment1.check_logged_in");
-            startActivity(i);
-            finish();
+        int flag=0;
+        if (username.getText().toString().equals("")) {
+            username.setError("This field is required");
+        }
+        else if (pass.getText().toString().equals("")) {
+            pass.setError("This field is required");
+        }
+        Cursor c = insdba.getAll();
+        while(c.moveToNext()) {
 
 
-        } else {
-            if (username.getText().toString().equals("")) {
-                username.setError("This field is required");
+            if (username.getText().toString().equals(c.getString(0)) && pass.getText().toString().equals(c.getString(2))) {
+
+                flag=1;
+
+                editor.putBoolean("first", true);
+                editor.putString("@string/username", username.getText().toString());
+                editor.putString("@string/pass", pass.getText().toString());
+                isFirst = true;
+                editor.commit();
+                Intent i = new Intent("com.example.mahe.assignment1.check_logged_in");
+                startActivity(i);
+                finish();
+
+
             }
-            else if (pass.getText().toString().equals("")) {
-                pass.setError("This field is required");
-            }
-            else {
+        }
+        if(flag==0) {
+
+            {
                 Toast.makeText(getApplicationContext(),"Wrong username or password",Toast.LENGTH_LONG).show();
                 editor.remove("first");
                 isFirst = false;

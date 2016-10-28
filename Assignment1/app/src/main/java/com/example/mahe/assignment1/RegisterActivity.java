@@ -33,11 +33,15 @@ public class RegisterActivity extends Activity {
     Drawable d;
     SharedPreferences sh ;
     SharedPreferences.Editor editor;
+    InsertUserDBAdapter insdba;
     @Override
     public void onCreate(Bundle b)
     {
         super.onCreate(b);
         setContentView(R.layout.activity_reg);
+
+        insdba = new InsertUserDBAdapter(getApplicationContext());
+        insdba.open();
 
         reg = (Button)findViewById(R.id.reg_btn);
         username = (EditText)findViewById(R.id.name_et);
@@ -92,9 +96,17 @@ public class RegisterActivity extends Activity {
                 else
                 {
                     if(attemptRegister()) {
-                        Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_LONG).show();
 
-                        //Enter user values into database
+                        String u = username.getText().toString();
+                        String e = email.getText().toString();
+                        String p = pass.getText().toString();
+
+                        boolean st = insdba.addVal(u, e, p);
+                        if(st)
+                            Toast.makeText(getApplicationContext(), "Successfully registered", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "This account has already been registered", Toast.LENGTH_LONG).show();
+
                         sh = getSharedPreferences(check_logged_in.t, Context.MODE_PRIVATE);
                         editor=sh.edit();
                         editor.putString("@strings/username",username.getText().toString());
