@@ -3,9 +3,15 @@ package com.example.mahe.assignment1;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,12 +50,18 @@ public class BudgetMake extends Activity {
     SharedPreferences sh;
     SharedPreferences.Editor editor;
 
+    InsertUserDBAdapter insdba;
+
 
 
     @Override
     public void onCreate(Bundle b){
         super.onCreate(b);
         setContentView(R.layout.activity_budget);
+
+        insdba = new InsertUserDBAdapter(getApplicationContext());
+
+        insdba.open();
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -62,6 +74,15 @@ public class BudgetMake extends Activity {
 
         bud = new ArrayList<Budget>();
         populateListView();
+
+        Cursor c = insdba.getBudgetAll();
+        if(c.getCount()!=0)
+        {
+            TextView t = (TextView)findViewById(R.id.listtxt);
+            t.setVisibility(View.VISIBLE);
+            populateBudgetList();
+            populateListView();
+        }
 
         registerClickCallback();
 
@@ -170,24 +191,60 @@ public class BudgetMake extends Activity {
             date1.setError("Please choose a date");
         else if(budg.equals(""))
             budg1.setError("Please enter amount");
-       else if(MainActivity.totexp > (Integer.parseInt(budg)-100)){
 
-           //TODO send notification
+       //else {
 
-           Toast.makeText(getApplicationContext(),"Expense is almost closing on budget!",Toast.LENGTH_LONG).show();
 
-       }
+
+          // Toast.makeText(getApplicationContext(),"Expense is almost closing on budget!",Toast.LENGTH_LONG).show();
+
+       //}
 
 
         else
         {
+            boolean st = insdba.addBudgetVal(Float.parseFloat(inc), date, Float.parseFloat(budg));
+            if(st)
+            {
+               // Toast.makeText(BudgetMake.this, "totexp" + MainActivity.totexp, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(BudgetMake.this, "budg" + (Float.parseFloat(budg)-500), Toast.LENGTH_SHORT).show();
+                if(MainActivity.totexp > (Float.parseFloat(budg)-500))
+                {
+                    //TODO notification
+
+                    Toast.makeText(BudgetMake.this, "inside" + MainActivity.totexp, Toast.LENGTH_SHORT).show();
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.appicon1).setContentTitle("Trialz").setContentInfo("checkin if this works lel");
+
+                    Intent resultIntent = new Intent(this, BudgetMake.class);
+
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+                    stackBuilder.addParentStack(BudgetMake.class);
+                    stackBuilder.addNextIntent(resultIntent);
+
+                    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+                    builder.setContentIntent(resultPendingIntent);
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(1,builder.build());
+                    notificationManager.cancel(1);
+
+                }
+
+                bud.clear();
+                Toast.makeText(this, "Insertion successful", Toast.LENGTH_LONG).show();
+                populateListView();
+                populateBudgetList();
+                populateListView();
+            }
+            else
+                Toast.makeText(this, "This entry already exists", Toast.LENGTH_LONG).show();
+
+
+
             TextView t = (TextView)findViewById(R.id.listtxt);
             t.setVisibility(View.VISIBLE);
 
             // totexp+= Integer.parseInt(amount);
-            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-            populateBudgetList();
-            populateListView();
+
         }
 
 
@@ -196,16 +253,14 @@ public class BudgetMake extends Activity {
 
 
     private void populateBudgetList() {
-        final EditText inc1 = (EditText) findViewById(R.id.income);
-        String inc = inc1.getText().toString();
-        final EditText date1 = (EditText) findViewById(R.id.cal);
-        String date = date1.getText().toString();
-        final EditText budg1 = (EditText) findViewById(R.id.budg);
-        String budg = budg1.getText().toString();
+        Cursor c = insdba.getBudgetAll();
+        while(c.moveToNext())
+        {
+            adapter.setNotifyOnChange(true);
+            bud.add(new Budget(c.getString(0),c.getString(1),c.getString(2)));
+            adapter.notifyDataSetChanged();
+        }
 
-        adapter.setNotifyOnChange(true);
-        bud.add(new Budget(inc,date,budg));
-        adapter.notifyDataSetChanged();
 
 
 

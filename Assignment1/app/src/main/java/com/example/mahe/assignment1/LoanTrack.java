@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +47,7 @@ public class LoanTrack extends Activity {
     ArrayAdapter<Loan> adapter;
     List<Loan> loan;
 
-
+    InsertUserDBAdapter insdba;
 
 
 
@@ -55,6 +57,10 @@ public class LoanTrack extends Activity {
         super.onCreate(b);
 
         setContentView(R.layout.activity_loan);
+
+        insdba = new InsertUserDBAdapter(getApplicationContext());
+
+        insdba.open();
 
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -67,6 +73,18 @@ public class LoanTrack extends Activity {
 
         loan = new ArrayList<Loan>();
         populateListView();
+
+        Cursor c = insdba.getLoanAll();
+
+        if(c.getCount()!=0)
+        {
+
+            TextView t = (TextView)findViewById(R.id.listtxt);
+            t.setVisibility(View.VISIBLE);
+            populateLoanList();
+            populateListView();
+        }
+
 
         registerClickCallback();
 
@@ -235,13 +253,23 @@ public class LoanTrack extends Activity {
 
         else
         {
+            boolean st = insdba.addLoanVal(spin, date, Float.parseFloat(amount), categ, friend);
+            if(st)
+            {
+                loan.clear();
+                Toast.makeText(this, "Insertion successful", Toast.LENGTH_LONG).show();
+                populateListView();
+                populateLoanList();
+                populateListView();
+            }
+            else
+                Toast.makeText(this, "This entry already exists", Toast.LENGTH_LONG).show();
+
+
             TextView t = (TextView)findViewById(R.id.listtxt);
             t.setVisibility(View.VISIBLE);
-
             // totexp+= Integer.parseInt(amount);
-            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-            populateLoanList();
-            populateListView();
+
         }
 
 
@@ -250,20 +278,14 @@ public class LoanTrack extends Activity {
 
 
     private void populateLoanList() {
-        spinner1 = (Spinner) findViewById(R.id.chooseSpinner);
-        String spin = spinner1.getSelectedItem().toString();
-        final EditText amt1 = (EditText) findViewById(R.id.amt);
-        String amount = amt1.getText().toString();
-        final EditText date1 = (EditText) findViewById(R.id.cal);
-        String date = date1.getText().toString();
-        final EditText friend1 = (EditText) findViewById(R.id.friend);
-        String friend = friend1.getText().toString();
-        final EditText categ1 = (EditText) findViewById(R.id.categ);
-        String categ = categ1.getText().toString();
+        Cursor c = insdba.getLoanAll();
+        while(c.moveToNext())
+        {
+            adapter.setNotifyOnChange(true);
+            loan.add(new Loan(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4)));
+            adapter.notifyDataSetChanged();
+        }
 
-        adapter.setNotifyOnChange(true);
-        loan.add(new Loan(spin,date,amount,friend,categ));
-        adapter.notifyDataSetChanged();
 
 
 

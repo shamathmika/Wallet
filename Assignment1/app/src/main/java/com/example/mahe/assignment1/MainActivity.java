@@ -8,11 +8,13 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.icu.util.Calendar;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,7 +51,6 @@ public class MainActivity extends Activity {
     Spinner spinner1;
     boolean check;
     private int request_code;
-    ListView lv;
     ArrayAdapter<Expense> adapter;
     List<Expense> exp;
 
@@ -58,7 +59,12 @@ public class MainActivity extends Activity {
     SharedPreferences.Editor editor;
 
 
-    public static float totexp = 0;
+    public static float totexp = -9999;
+
+    InsertUserDBAdapter insdba;
+    private ListView lv;
+    private ArrayList al;
+    private ArrayAdapter aad;
 
 
 
@@ -69,8 +75,24 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
+        insdba = new InsertUserDBAdapter(getApplicationContext());
+
+        insdba.open();
+
+        al = new ArrayList<String>();
+
+
         exp = new ArrayList<Expense>();
         populateListView();
+
+        Cursor c = insdba.getExpenseAll();
+        if(c.getCount()!=0)
+        {
+            TextView t = (TextView)findViewById(R.id.listtxt);
+            t.setVisibility(View.VISIBLE);
+            populateExpenseList();
+            populateListView();
+        }
 
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -243,12 +265,23 @@ public class MainActivity extends Activity {
 
         else
         {
+            boolean st = insdba.addExpenseVal(spin, date, Float.parseFloat(amount), categ);
+            if(st)
+            {
+                exp.clear();
+                Toast.makeText(this, "Insertion successful", Toast.LENGTH_LONG).show();
+                populateListView();
+                populateExpenseList();
+                populateListView();
+            }
+            else
+                Toast.makeText(this, "This entry already exists", Toast.LENGTH_LONG).show();
+
+
             TextView t = (TextView)findViewById(R.id.listtxt);
             t.setVisibility(View.VISIBLE);
            // totexp+= Integer.parseInt(amount);
-            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-            populateExpenseList();
-            populateListView();
+
         }
 
 
@@ -257,7 +290,9 @@ public class MainActivity extends Activity {
 
 
     private void populateExpenseList() {
-        spinner1 = (Spinner) findViewById(R.id.chooseSpinner);
+
+
+        /*spinner1 = (Spinner) findViewById(R.id.chooseSpinner);
         String spin = spinner1.getSelectedItem().toString();
         final EditText date1 = (EditText) findViewById(R.id.cal);
         String date = date1.getText().toString();
@@ -267,7 +302,18 @@ public class MainActivity extends Activity {
         String categ = categ1.getText().toString();
         adapter.setNotifyOnChange(true);
         exp.add(new Expense(spin,date,amount,categ));
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();*/
+
+        totexp = 0;
+        Cursor c = insdba.getExpenseAll();
+        while(c.moveToNext())
+        {
+            adapter.setNotifyOnChange(true);
+            exp.add(new Expense(c.getString(0),c.getString(1),c.getString(2),c.getString(3)));
+            adapter.notifyDataSetChanged();
+            totexp = totexp + c.getFloat(2);
+        }
+
 
 
 
